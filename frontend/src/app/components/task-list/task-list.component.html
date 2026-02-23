@@ -1,0 +1,37 @@
+<div class="page-header">
+  <h1 class="page-title">Tasks</h1>
+  <a routerLink="/tasks/new" class="btn btn-primary">+ New Task</a>
+</div>
+<div class="stats-row">
+  <div class="stat-card"><div class="stat-label">Total</div><div class="stat-value">{{ tasks.length }}</div></div>
+  <div class="stat-card"><div class="stat-label">To Do</div><div class="stat-value">{{ todoCount }}</div></div>
+  <div class="stat-card"><div class="stat-label">In Progress</div><div class="stat-value">{{ inProgressCount }}</div></div>
+  <div class="stat-card"><div class="stat-label">Done</div><div class="stat-value">{{ doneCount }}</div></div>
+</div>
+<div class="filters">
+  <input class="form-control" type="text" placeholder="Search tasks…" [(ngModel)]="searchQuery" (ngModelChange)="loadTasks()">
+  <select class="form-control" [(ngModel)]="filterStatus"   (ngModelChange)="loadTasks()"><option value="">All Statuses</option><option *ngFor="let s of statuses" [value]="s">{{ formatStatus(s) }}</option></select>
+  <select class="form-control" [(ngModel)]="filterPriority" (ngModelChange)="loadTasks()"><option value="">All Priorities</option><option *ngFor="let p of priorities" [value]="p">{{ p }}</option></select>
+  <select class="form-control" [(ngModel)]="filterCategory" (ngModelChange)="loadTasks()"><option value="">All Categories</option><option *ngFor="let c of categories" [value]="c.id">{{ c.name }}</option></select>
+  <button class="btn btn-secondary" (click)="resetFilters()">Reset</button>
+</div>
+<div *ngIf="error" class="invalid-feedback" style="margin-bottom:1rem">{{ error }}</div>
+<div *ngIf="loading" style="text-align:center;padding:2rem;color:var(--muted)">Loading…</div>
+<div *ngIf="!loading && tasks.length===0 && !error" class="empty-state">
+  <p>No tasks found.</p><a routerLink="/tasks/new" class="btn btn-primary">Create your first task</a>
+</div>
+<div class="task-grid" *ngIf="!loading && tasks.length>0">
+  <div class="task-card" *ngFor="let task of tasks">
+    <div class="task-title">{{ task.title }}</div>
+    <div class="task-desc" *ngIf="task.description">{{ task.description }}</div>
+    <div class="task-meta">
+      <span class="badge" [ngClass]="statusBadge(task.status)">{{ formatStatus(task.status) }}</span>
+      <span class="badge" [ngClass]="priorityBadge(task.priority)">{{ task.priority }}</span>
+      <span class="category-tag" *ngIf="task.category">{{ task.category.name }}</span>
+    </div>
+    <div class="task-footer">
+      <a [routerLink]="['/tasks', task.id]" class="btn btn-sm btn-secondary">Edit</a>
+      <button class="btn btn-sm btn-danger" (click)="deleteTask(task.id!)">Delete</button>
+    </div>
+  </div>
+</div>

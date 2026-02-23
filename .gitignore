@@ -1,0 +1,12 @@
+target/
+*.class *.jar *.war
+node_modules/
+dist/
+.angular/
+__pycache__/
+*.pyc
+.venv/ venv/
+*.csv
+.env
+.idea/ .vscode/
+.DS_Store Thumbs.db
