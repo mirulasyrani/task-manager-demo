@@ -2,7 +2,8 @@ package com.demo.taskmanager.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 
 @Entity @Table(name="categories") @Data @NoArgsConstructor @AllArgsConstructor @Builder
